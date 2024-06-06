@@ -74,12 +74,10 @@ def html2jpg():
 def main():
 
     #### generate html to "./data/html"
-    # generate_html()
+    generate_html()
 
     ### html to jpg to "./data/jpg"
     # html2jpg()
-
-    pass
 
 
 
