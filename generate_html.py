@@ -4,8 +4,10 @@ from pprint import pprint
 import pdb
 from pdb import set_trace as pds
 
+import argparse
+
 import sys
-sys.path.insert(0, "/home/ubuntu/projects/FeTaQA-ori")
+# sys.path.insert(0, "/home/ubuntu/projects/FeTaQA-ori")
 
 import os
 
@@ -43,13 +45,12 @@ def ensure_path(path, early_exit = False):
     else:
         os.makedirs(path)
 
-NUM_TABLES = 500
 TOTTO_PATH = "./data/totto_source"
 HTML_PATH = "./data/html"
 
-def generate_html():
+def generate_html(num_tables = 500):
     ensure_path(HTML_PATH)
-    for table_id in range(NUM_TABLES):
+    for table_id in range(num_tables):
         totoo_source = load_json(f"{TOTTO_PATH}/dev_json/example-{table_id}.json")
         html_content = totoo_source['table_html']
         filename = f'{HTML_PATH}/dev_{table_id}.html'
@@ -60,24 +61,31 @@ def generate_html():
 
 
 JPG_PATH = "./data/jpg"
-def html2jpg():
+def html2jpg(num_tables = 500):
     ensure_path(JPG_PATH)
-    for table_id in range(NUM_TABLES):
+    for table_id in range(num_tables):
         filename = f'{HTML_PATH}/dev_{table_id}.html'
         # pds()
         imgkit.from_file(filename, f'{JPG_PATH}/dev_{table_id}.jpg')
 
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--num_tables",type = int, default = 500)
+
+    return parser.parse_args()
 
 
 def main():
+    args = parse_args()
+    num_tables = args.num_tables
 
     #### generate html to "./data/html"
-    generate_html()
+    generate_html(num_tables)
 
     ### html to jpg to "./data/jpg"
-    # html2jpg()
+    # html2jpg(num_tables)
 
 
 
